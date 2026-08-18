@@ -28,6 +28,7 @@ const KpiCard = ({ label, target, suffix = '', delta, deltaNeg = false, warn = f
 
 export default function Dashboard() {
   const [stamp, setStamp] = useState('—');
+  const [activeNav, setActiveNav] = useState('Command Center');
 
   useEffect(() => {
     setStamp(new Date().toLocaleString('en-US', {
@@ -74,19 +75,19 @@ export default function Dashboard() {
 
         <div className="nav-group">
           <div className="nav-label">Workspace</div>
-          <div className="nav-item active">
+          <div className={`nav-item ${activeNav === 'Command Center' ? 'active' : ''}`} onClick={() => setActiveNav('Command Center')}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
             <span>Command Center</span>
           </div>
-          <div className="nav-item">
+          <div className={`nav-item ${activeNav === 'Knowledge Graph' ? 'active' : ''}`} onClick={() => setActiveNav('Knowledge Graph')}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M6 7l4 3M18 7l-4 3M6 17l4-3M18 17l-4-3"/></svg>
             <span>Knowledge Graph</span>
           </div>
-          <div className="nav-item">
+          <div className={`nav-item ${activeNav === 'Sources' ? 'active' : ''}`} onClick={() => setActiveNav('Sources')}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
             <span>Sources</span>
           </div>
-          <div className="nav-item">
+          <div className={`nav-item ${activeNav === 'Semantic Search' ? 'active' : ''}`} onClick={() => setActiveNav('Semantic Search')}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
             <span>Semantic Search</span>
           </div>
@@ -94,15 +95,15 @@ export default function Dashboard() {
 
         <div className="nav-group">
           <div className="nav-label">Insight</div>
-          <div className="nav-item">
+          <div className={`nav-item ${activeNav === 'Analytics' ? 'active' : ''}`} onClick={() => setActiveNav('Analytics')}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 19V9M12 19V4M20 19v-6"/></svg>
             <span>Analytics</span>
           </div>
-          <div className="nav-item">
+          <div className={`nav-item ${activeNav === 'API & Docs' ? 'active' : ''}`} onClick={() => setActiveNav('API & Docs')}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
             <span>API &amp; Docs</span>
           </div>
-          <div className="nav-item">
+          <div className={`nav-item ${activeNav === 'Activity Log' ? 'active' : ''}`} onClick={() => setActiveNav('Activity Log')}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
             <span>Activity Log</span>
           </div>
@@ -128,7 +129,8 @@ export default function Dashboard() {
 
       {/* MAIN */}
       <main className="main">
-
+        {activeNav === 'Command Center' ? (
+          <>
         <div className="page-head">
           <div>
             <span className="eyebrow">Enterprise Context Intelligence</span>
@@ -324,6 +326,21 @@ export default function Dashboard() {
             </div>
           </div>
         </section>
+          </>
+        ) : (
+          <div style={{ padding: '40px' }}>
+            <div className="page-head">
+              <div>
+                <span className="eyebrow">Enterprise Context Intelligence</span>
+                <h1>{activeNav}</h1>
+              </div>
+              <span className="stamp">{stamp}</span>
+            </div>
+            <div style={{ marginTop: '20px', padding: '40px', background: '#171C27', borderRadius: '8px', border: '1px solid #242B38', color: '#8C94A6' }}>
+              This section is under construction.
+            </div>
+          </div>
+        )}
 
         <div className="footer-note">ContekXtra — Enterprise Context Intelligence Command Center · Dashboard concept for approval review</div>
       </main>

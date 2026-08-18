@@ -23,7 +23,6 @@ File: `contekxtra-dashboard.html`
 | **Row 4** | Recent Retrieval Activity + Knowledge Coverage by Source (Widget C) |
 
 ---
-
 ## 3. Widget Mapping (BA Report → Dashboard)
 
 **Widget A – Input Layer**
