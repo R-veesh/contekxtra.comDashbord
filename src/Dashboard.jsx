@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import KnowledgeGraphView from './views/KnowledgeGraphView';
+import SourcesView from './views/SourcesView';
+import SemanticSearchView from './views/SemanticSearchView';
+import AnalyticsView from './views/AnalyticsView';
+import ApiDocsView from './views/ApiDocsView';
+import ActivityLogView from './views/ActivityLogView';
 
 const KpiCard = ({ label, target, suffix = '', delta, deltaNeg = false, warn = false }) => {
   const [value, setValue] = useState(0);
@@ -329,16 +335,19 @@ export default function Dashboard() {
           </>
         ) : (
           <div style={{ padding: '40px' }}>
-            <div className="page-head">
+            <div className="page-head" style={{ marginBottom: '24px' }}>
               <div>
                 <span className="eyebrow">Enterprise Context Intelligence</span>
                 <h1>{activeNav}</h1>
               </div>
               <span className="stamp">{stamp}</span>
             </div>
-            <div style={{ marginTop: '20px', padding: '40px', background: '#171C27', borderRadius: '8px', border: '1px solid #242B38', color: '#8C94A6' }}>
-              This section is under construction.
-            </div>
+            {activeNav === 'Knowledge Graph' && <KnowledgeGraphView />}
+            {activeNav === 'Sources' && <SourcesView />}
+            {activeNav === 'Semantic Search' && <SemanticSearchView />}
+            {activeNav === 'Analytics' && <AnalyticsView />}
+            {activeNav === 'API & Docs' && <ApiDocsView />}
+            {activeNav === 'Activity Log' && <ActivityLogView />}
           </div>
         )}
 
