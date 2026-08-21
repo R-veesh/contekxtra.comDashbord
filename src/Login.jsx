@@ -10,6 +10,26 @@ export default function Login({ onLogin }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
 
+  const getPasswordStrength = (pass) => {
+    if (!pass) return { score: 0, label: 'Very Weak', color: '#374151', textColor: '#6B7280' };
+    let score = 0;
+    if (pass.length >= 8) score += 1;
+    if (pass.match(/[A-Z]/)) score += 1;
+    if (pass.match(/[0-9]/)) score += 1;
+    if (pass.match(/[^A-Za-z0-9]/)) score += 1;
+
+    switch (score) {
+      case 0: return { score, label: 'Very Weak', color: '#374151', textColor: '#6B7280' };
+      case 1: return { score, label: 'Weak', color: '#EF4444', textColor: '#EF4444' };
+      case 2: return { score, label: 'So-so', color: '#F97316', textColor: '#F97316' };
+      case 3: return { score, label: 'Good', color: '#84CC16', textColor: '#84CC16' };
+      case 4: return { score, label: 'Strong', color: '#10B981', textColor: '#10B981' };
+      default: return { score: 0, label: 'Very Weak', color: '#374151', textColor: '#6B7280' };
+    }
+  };
+
+  const strength = getPasswordStrength(password);
+
   const validatePassword = (pass) => {
     const minLength = 8;
     const hasUpper = /[A-Z]/.test(pass);
@@ -175,14 +195,40 @@ export default function Login({ onLogin }) {
                 width: '100%',
                 padding: '12px 16px',
                 backgroundColor: '#090B0E',
-                border: '1px solid #242B38',
+                border: password && isSignUp 
+                  ? (strength.score <= 1 ? '1px solid #EF4444' : strength.score === 2 ? '1px solid #F97316' : strength.score === 3 ? '1px solid #84CC16' : '1px solid #10B981')
+                  : '1px solid #242B38',
                 borderRadius: '6px',
                 color: '#E4E7ED',
                 fontSize: '14px',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                outline: 'none'
               }}
               required
             />
+            {isSignUp && password && (
+              <div style={{ marginTop: '8px' }}>
+                <div style={{ display: 'flex', gap: '4px', marginBottom: '6px' }}>
+                  {[1, 2, 3, 4].map((index) => (
+                    <div 
+                      key={index}
+                      style={{
+                        height: '4px',
+                        flex: 1,
+                        borderRadius: '4px',
+                        backgroundColor: index <= strength.score ? strength.color : '#242B38',
+                        transition: 'background-color 0.3s'
+                      }}
+                    />
+                  ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '600', color: strength.textColor }}>
+                    {strength.label}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           {isSignUp && (
