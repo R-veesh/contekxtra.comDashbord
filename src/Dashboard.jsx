@@ -5,6 +5,7 @@ import SemanticSearchView from './views/SemanticSearchView';
 import AnalyticsView from './views/AnalyticsView';
 import ApiDocsView from './views/ApiDocsView';
 import ActivityLogView from './views/ActivityLogView';
+import logoUrl from './assets/Contekxtra Favicon.svg';
 
 const KpiCard = ({ label, target, suffix = '', delta, deltaNeg = false, warn = false }) => {
   const [value, setValue] = useState(0);
@@ -72,7 +73,7 @@ export default function Dashboard() {
       {/* RAIL */}
       <aside className="rail">
         <div className="brand">
-          <div className="brand-mark">CX</div>
+          <img src={logoUrl} alt="ContekXtra Logo" style={{ width: '32px', height: '32px', borderRadius: '8px', flexShrink: 0 }} />
           <div className="brand-text">
             <span className="name">ContekXtra</span>
             <span className="sub">Context Intelligence</span>
