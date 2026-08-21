@@ -1,21 +1,49 @@
 import React, { useState } from 'react';
 import { auth, googleProvider } from './firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 
 export default function Login({ onLogin }) {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
+
+  const validatePassword = (pass) => {
+    const minLength = 8;
+    const hasUpper = /[A-Z]/.test(pass);
+    const hasLower = /[a-z]/.test(pass);
+    const hasNumber = /[0-9]/.test(pass);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(pass);
+    return pass.length >= minLength && hasUpper && hasLower && hasNumber && hasSpecial;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    
     if (!email || !password) return;
+
+    if (isSignUp) {
+      if (!name.trim()) {
+        setError('Name is required');
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
+      if (!validatePassword(password)) {
+        setError('Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.');
+        return;
+      }
+    }
 
     try {
       if (isSignUp) {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: name });
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
@@ -89,6 +117,29 @@ export default function Login({ onLogin }) {
         )}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {isSignUp && (
+            <div>
+              <label style={{ display: 'block', color: '#8C94A6', fontSize: '13px', marginBottom: '8px' }}>Full Name</label>
+              <input 
+                type="text" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="John Doe"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  backgroundColor: '#090B0E',
+                  border: '1px solid #2A5A54',
+                  borderRadius: '6px',
+                  color: '#E4E7ED',
+                  fontSize: '14px',
+                  boxSizing: 'border-box'
+                }}
+                required={isSignUp}
+              />
+            </div>
+          )}
+
           <div>
             <label style={{ display: 'block', color: '#8C94A6', fontSize: '13px', marginBottom: '8px' }}>Work Email</label>
             <input 
@@ -109,6 +160,7 @@ export default function Login({ onLogin }) {
               required
             />
           </div>
+
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
               <label style={{ color: '#8C94A6', fontSize: '13px' }}>Password</label>
@@ -132,6 +184,30 @@ export default function Login({ onLogin }) {
               required
             />
           </div>
+
+          {isSignUp && (
+            <div>
+              <label style={{ display: 'block', color: '#8C94A6', fontSize: '13px', marginBottom: '8px' }}>Confirm Password</label>
+              <input 
+                type="password" 
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  backgroundColor: '#090B0E',
+                  border: '1px solid #242B38',
+                  borderRadius: '6px',
+                  color: '#E4E7ED',
+                  fontSize: '14px',
+                  boxSizing: 'border-box'
+                }}
+                required={isSignUp}
+              />
+            </div>
+          )}
+
           <button 
             type="submit" 
             style={{
@@ -197,7 +273,11 @@ export default function Login({ onLogin }) {
         <div style={{ textAlign: 'center', marginTop: '24px', color: '#5B6275', fontSize: '13px' }}>
           {isSignUp ? 'Already have an account?' : "Don't have an account?"}
           <button 
-            onClick={() => setIsSignUp(!isSignUp)}
+            type="button"
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError(null);
+            }}
             style={{
               background: 'none',
               border: 'none',
