@@ -33,7 +33,7 @@ const KpiCard = ({ label, target, suffix = '', delta, deltaNeg = false, warn = f
   );
 };
 
-export default function Dashboard() {
+export default function Dashboard({ user }) {
   const [stamp, setStamp] = useState('—');
   const [activeNav, setActiveNav] = useState('Command Center');
 
@@ -121,18 +121,40 @@ export default function Dashboard() {
         </div>
       </aside>
 
-      {/* TOPBAR */}
-      <header className="topbar">
-        <div className="search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="text" placeholder="Ask ContekXtra about your enterprise knowledge…" />
-          <span className="search-kbd">⌘K</span>
-        </div>
-        <div className="top-right">
-          <div className="sync-pill"><span className="pulse"></span>All sources synced</div>
-          <div className="avatar">EK</div>
-        </div>
-      </header>
+        {/* TOPBAR */}
+        <header className="topbar">
+          <div className="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="text" placeholder="Ask ContekXtra about your enterprise knowledge…" />
+            <span className="search-kbd">⌘K</span>
+          </div>
+          <div className="top-right" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div className="sync-pill"><span className="pulse"></span>All sources synced</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderLeft: '1px solid var(--line)', paddingLeft: '16px' }}>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ color: 'var(--text)', fontSize: '13px', fontWeight: 'bold' }}>{user?.displayName || 'User'}</div>
+                <div style={{ color: 'var(--text-mut)', fontSize: '11px' }}>{user?.email}</div>
+              </div>
+              
+              {user?.photoURL ? (
+                <img src={user.photoURL} alt="Avatar" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} />
+              ) : (
+                <div className="avatar" style={{ width: '32px', height: '32px', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--surface-2)', border: '1px solid var(--line)', borderRadius: '50%', color: 'var(--amber)' }}>
+                  {(user?.displayName || user?.email || 'U').substring(0, 2).toUpperCase()}
+                </div>
+              )}
+              
+              <button 
+                onClick={() => import('./firebase').then(({ auth }) => import('firebase/auth').then(({ signOut }) => signOut(auth)))} 
+                style={{ background: 'transparent', border: '1px solid var(--line)', color: 'var(--text-mut)', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer', fontSize: '11px', marginLeft: '4px', transition: 'all 0.2s' }}
+                onMouseOver={(e) => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.borderColor = 'var(--text-mut)'; }}
+                onMouseOut={(e) => { e.currentTarget.style.color = 'var(--text-mut)'; e.currentTarget.style.borderColor = 'var(--line)'; }}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </header>
 
       {/* MAIN */}
       <main className="main">

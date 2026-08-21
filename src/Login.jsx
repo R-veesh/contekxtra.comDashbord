@@ -67,7 +67,6 @@ export default function Login({ onLogin }) {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
-      onLogin();
     } catch (err) {
       setError(err.message);
     }
@@ -77,7 +76,6 @@ export default function Login({ onLogin }) {
     setError(null);
     try {
       await signInWithPopup(auth, googleProvider);
-      onLogin();
     } catch (err) {
       setError(err.message);
     }
