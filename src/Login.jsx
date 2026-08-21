@@ -102,23 +102,11 @@ export default function Login({ onLogin }) {
         boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            width: '48px', 
-            height: '48px', 
-            backgroundColor: '#1E1710', 
-            color: '#E8A33D', 
-            borderRadius: '8px',
-            border: '1px solid #E8A33D',
-            fontWeight: 'bold',
-            fontSize: '20px',
-            marginBottom: '16px'
-          }}>
-            CX
-          </div>
-          <h1 style={{ color: '#E4E7ED', fontSize: '24px', margin: '0 0 8px 0' }}>ContekXtra</h1>
+          <img 
+            src="/logo.svg" 
+            alt="ContekXtra Logo" 
+            style={{ height: '48px', marginBottom: '16px', display: 'block', margin: '0 auto 16px auto' }} 
+          />
           <p style={{ color: '#8C94A6', margin: 0, fontSize: '14px' }}>Enterprise Context Intelligence</p>
         </div>
 
