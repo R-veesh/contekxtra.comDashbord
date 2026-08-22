@@ -30,10 +30,10 @@ export default function AnalyticsView() {
 
       <div style={{ background: '#171C27', padding: '24px', borderRadius: '8px', border: '1px solid #242B38', height: '300px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ color: '#E4E7ED', fontSize: '15px', fontWeight: 'bold', marginBottom: '20px' }}>Query Volume by Department</div>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end', gap: '12px', paddingTop: '20px', borderBottom: '1px solid #2A5A54' }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end', gap: '12px', paddingTop: '20px', borderBottom: '1px solid #2A5A54', overflowX: 'auto' }}>
           {/* Mock Bar Chart */}
           {[{h: '80%', l: 'Engineering'}, {h: '45%', l: 'Sales'}, {h: '60%', l: 'Support'}, {h: '30%', l: 'HR'}, {h: '70%', l: 'Research'}, {h: '25%', l: 'Legal'}].map((bar, i) => (
-            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', minWidth: '60px' }}>
               <div style={{ width: '100%', flex: 1, display: 'flex', alignItems: 'flex-end', padding: '0 10px' }}>
                 <div style={{ width: '100%', height: bar.h, background: '#3DBFAD', borderRadius: '4px 4px 0 0', opacity: 0.8 }}></div>
               </div>
