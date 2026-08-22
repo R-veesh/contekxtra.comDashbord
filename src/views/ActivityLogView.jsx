@@ -62,8 +62,8 @@ export default function ActivityLogView() {
         </div>
       </div>
       
-      <div style={{ background: '#171C27', borderRadius: '8px', border: '1px solid #242B38', overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+      <div style={{ background: '#171C27', borderRadius: '8px', border: '1px solid #242B38', overflowX: 'auto' }}>
+        <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
           <thead>
             <tr style={{ background: '#090B0E', color: '#5B6275', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               <th style={{ padding: '12px 16px', fontWeight: 'normal' }}>Time</th>
@@ -82,15 +82,15 @@ export default function ActivityLogView() {
             )}
             {displayedLogs.map((log, idx) => (
               <tr key={idx} style={{ borderTop: '1px solid #242B38' }}>
-                <td style={{ padding: '16px', color: '#8C94A6' }}>{log.time}</td>
-                <td style={{ padding: '16px', color: '#E4E7ED', fontWeight: '500' }}>
+                <td style={{ padding: '16px', color: '#8C94A6', whiteSpace: 'nowrap' }}>{log.time}</td>
+                <td style={{ padding: '16px', color: '#E4E7ED', fontWeight: '500', whiteSpace: 'nowrap' }}>
                   <span style={{ display: 'inline-block', width: '24px', height: '24px', background: log.type === 'user' ? '#2A5A54' : (log.type === 'error' ? '#2A1717' : '#1E1710'), color: log.type === 'user' ? '#3DBFAD' : (log.type === 'error' ? '#E2574C' : '#E8A33D'), borderRadius: '12px', textAlign: 'center', lineHeight: '24px', marginRight: '8px', fontSize: '10px', verticalAlign: 'middle' }}>
                     {log.type === 'user' ? 'U' : (log.type === 'error' ? 'E' : 'S')}
                   </span>
                   {log.user}
                 </td>
-                <td style={{ padding: '16px', color: log.type === 'error' ? '#E2574C' : '#3DBFAD' }}>{log.action}</td>
-                <td style={{ padding: '16px', color: '#8C94A6' }}>{log.detail}</td>
+                <td style={{ padding: '16px', color: log.type === 'error' ? '#E2574C' : '#3DBFAD', whiteSpace: 'nowrap' }}>{log.action}</td>
+                <td style={{ padding: '16px', color: '#8C94A6', minWidth: '300px' }}>{log.detail}</td>
               </tr>
             ))}
           </tbody>

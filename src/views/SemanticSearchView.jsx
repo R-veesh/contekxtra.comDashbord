@@ -73,7 +73,7 @@ export default function SemanticSearchView() {
           
           <div style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
             <div style={{ color: '#E4E7ED', fontWeight: 'bold', marginBottom: '16px', fontSize: '14px' }}>Suggested Queries</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="grid-2">
               {[
                 "What changed in the Q3 vendor contract terms?",
                 "Show revenue trend for the APAC region, last 2 quarters",

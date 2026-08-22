@@ -36,6 +36,7 @@ const KpiCard = ({ label, target, suffix = '', delta, deltaNeg = false, warn = f
 export default function Dashboard({ user }) {
   const [stamp, setStamp] = useState('—');
   const [activeNav, setActiveNav] = useState('Command Center');
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   useEffect(() => {
     setStamp(new Date().toLocaleString('en-US', {
@@ -69,7 +70,8 @@ export default function Dashboard({ user }) {
   ];
 
   return (
-    <div className="shell">
+    <div className={`shell ${isMobileNavOpen ? 'mobile-nav-open' : ''}`}>
+      <div className="mobile-overlay" onClick={() => setIsMobileNavOpen(false)}></div>
       {/* RAIL */}
       <aside className="rail">
         <div className="brand">
@@ -82,19 +84,19 @@ export default function Dashboard({ user }) {
 
         <div className="nav-group">
           <div className="nav-label">Workspace</div>
-          <div className={`nav-item ${activeNav === 'Command Center' ? 'active' : ''}`} onClick={() => setActiveNav('Command Center')}>
+          <div className={`nav-item ${activeNav === 'Command Center' ? 'active' : ''}`} onClick={() => { setActiveNav('Command Center'); setIsMobileNavOpen(false); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
             <span>Command Center</span>
           </div>
-          <div className={`nav-item ${activeNav === 'Knowledge Graph' ? 'active' : ''}`} onClick={() => setActiveNav('Knowledge Graph')}>
+          <div className={`nav-item ${activeNav === 'Knowledge Graph' ? 'active' : ''}`} onClick={() => { setActiveNav('Knowledge Graph'); setIsMobileNavOpen(false); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M6 7l4 3M18 7l-4 3M6 17l4-3M18 17l-4-3"/></svg>
             <span>Knowledge Graph</span>
           </div>
-          <div className={`nav-item ${activeNav === 'Sources' ? 'active' : ''}`} onClick={() => setActiveNav('Sources')}>
+          <div className={`nav-item ${activeNav === 'Sources' ? 'active' : ''}`} onClick={() => { setActiveNav('Sources'); setIsMobileNavOpen(false); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
             <span>Sources</span>
           </div>
-          <div className={`nav-item ${activeNav === 'Semantic Search' ? 'active' : ''}`} onClick={() => setActiveNav('Semantic Search')}>
+          <div className={`nav-item ${activeNav === 'Semantic Search' ? 'active' : ''}`} onClick={() => { setActiveNav('Semantic Search'); setIsMobileNavOpen(false); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
             <span>Semantic Search</span>
           </div>
@@ -102,15 +104,15 @@ export default function Dashboard({ user }) {
 
         <div className="nav-group">
           <div className="nav-label">Insight</div>
-          <div className={`nav-item ${activeNav === 'Analytics' ? 'active' : ''}`} onClick={() => setActiveNav('Analytics')}>
+          <div className={`nav-item ${activeNav === 'Analytics' ? 'active' : ''}`} onClick={() => { setActiveNav('Analytics'); setIsMobileNavOpen(false); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 19V9M12 19V4M20 19v-6"/></svg>
             <span>Analytics</span>
           </div>
-          <div className={`nav-item ${activeNav === 'API & Docs' ? 'active' : ''}`} onClick={() => setActiveNav('API & Docs')}>
+          <div className={`nav-item ${activeNav === 'API & Docs' ? 'active' : ''}`} onClick={() => { setActiveNav('API & Docs'); setIsMobileNavOpen(false); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
             <span>API &amp; Docs</span>
           </div>
-          <div className={`nav-item ${activeNav === 'Activity Log' ? 'active' : ''}`} onClick={() => setActiveNav('Activity Log')}>
+          <div className={`nav-item ${activeNav === 'Activity Log' ? 'active' : ''}`} onClick={() => { setActiveNav('Activity Log'); setIsMobileNavOpen(false); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
             <span>Activity Log</span>
           </div>
@@ -123,10 +125,15 @@ export default function Dashboard({ user }) {
 
         {/* TOPBAR */}
         <header className="topbar">
-          <div className="search-wrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-            <input type="text" placeholder="Ask ContekXtra about your enterprise knowledge…" />
-            <span className="search-kbd">⌘K</span>
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <button className="mobile-menu-btn" style={{ display: 'none' }} onClick={() => setIsMobileNavOpen(true)}>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <div className="search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+              <input type="text" placeholder="Ask ContekXtra about your enterprise knowledge…" />
+              <span className="search-kbd">⌘K</span>
+            </div>
           </div>
           <div className="top-right" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div className="sync-pill"><span className="pulse"></span>All sources synced</div>

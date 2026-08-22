@@ -49,7 +49,7 @@ export default function SourcesView() {
         </button>
       </div>
       
-      <div className="source-list" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+      <div className="source-list grid-2">
         {sources.map((s, idx) => (
           <div className="source-row animate-in fade-in" key={idx} style={{ background: '#171C27', padding: '16px', borderRadius: '8px', border: '1px solid #242B38', transition: 'all 0.3s ease' }}>
             <div className="source-icon" style={{ flexShrink: 0 }}>{s.code}</div>
@@ -64,8 +64,8 @@ export default function SourcesView() {
       </div>
 
       {isModalOpen && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
-          <div className="animate-in zoom-in duration-300" style={{ background: '#171C27', padding: '24px', borderRadius: '12px', border: '1px solid #242B38', width: '100%', maxWidth: '440px', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)', padding: '16px' }}>
+          <div className="animate-in zoom-in duration-300" style={{ background: '#171C27', padding: '24px', borderRadius: '12px', border: '1px solid #242B38', width: '100%', maxWidth: '440px', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', boxSizing: 'border-box' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
               <h3 style={{ margin: 0, color: '#E4E7ED', fontSize: '18px' }}>Add New Connection</h3>
               <button onClick={() => !isAdding && setIsModalOpen(false)} style={{ background: 'transparent', border: 'none', color: '#8C94A6', cursor: 'pointer', fontSize: '20px', padding: '4px' }}>&times;</button>
