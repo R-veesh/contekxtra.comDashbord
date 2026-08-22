@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import KnowledgeGraphView from './views/KnowledgeGraphView';
 import SourcesView from './views/SourcesView';
 import SemanticSearchView from './views/SemanticSearchView';
@@ -38,6 +38,33 @@ export default function Dashboard({ user }) {
   const [activeNav, setActiveNav] = useState('Command Center');
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
+  const [globalQuery, setGlobalQuery] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const searchInputRef = useRef(null);
+
+  const NAV_PAGES = [
+    { name: 'Command Center', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg> },
+    { name: 'Knowledge Graph', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="3" /><circle cx="4" cy="6" r="2" /><circle cx="20" cy="6" r="2" /><circle cx="4" cy="18" r="2" /><circle cx="20" cy="18" r="2" /><path d="M6 7l4 3M18 7l-4 3M6 17l4-3M18 17l-4-3" /></svg> },
+    { name: 'Sources', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 6h16M4 12h16M4 18h10" /></svg> },
+    { name: 'Semantic Search', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg> },
+    { name: 'Analytics', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 19V9M12 19V4M20 19v-6" /></svg> },
+    { name: 'API & Docs', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M3 9h18M8 4v5" /></svg> },
+    { name: 'Activity Log', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="8" /><path d="M12 8v4l3 2" /></svg> }
+  ];
+
+  const filteredNavs = searchInputValue ? NAV_PAGES.filter(p => p.name.toLowerCase().includes(searchInputValue.toLowerCase())) : [];
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   useEffect(() => {
     setStamp(new Date().toLocaleString('en-US', {
@@ -129,10 +156,77 @@ export default function Dashboard({ user }) {
           <button className="mobile-menu-btn" style={{ display: 'none' }} onClick={() => setIsMobileNavOpen(true)}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
-          <div className="search-wrap">
+          <div className="search-wrap" style={{ position: 'relative' }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
-            <input type="text" placeholder="Ask ContekXtra about your enterprise knowledge…" />
+            <input 
+              type="text" 
+              placeholder="Ask ContekXtra about your enterprise knowledge…" 
+              ref={searchInputRef}
+              value={searchInputValue}
+              onChange={(e) => setSearchInputValue(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && e.target.value.trim()) {
+                  setGlobalQuery(e.target.value);
+                  setActiveNav('Semantic Search');
+                  setSearchInputValue('');
+                  setIsSearchFocused(false);
+                  e.target.blur();
+                }
+              }}
+            />
             <span className="search-kbd">⌘K</span>
+            
+            {isSearchFocused && (
+              <div style={{
+                position: 'absolute', top: 'calc(100% + 8px)', left: 0, right: 0,
+                background: 'var(--surface)', border: '1px solid var(--line)',
+                borderRadius: '8px', padding: '8px', zIndex: 100,
+                boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                display: 'flex', flexDirection: 'column', gap: '4px'
+              }}>
+                {searchInputValue ? (
+                  <>
+                    <div style={{ padding: '8px 12px', fontSize: '11px', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Top Results</div>
+                    
+                    {filteredNavs.length > 0 && (
+                      <div style={{ padding: '8px 12px 4px', fontSize: '11px', color: 'var(--amber)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pages</div>
+                    )}
+                    {filteredNavs.map(page => (
+                      <div key={page.name} className="search-res-item" style={{ padding: '10px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => { setActiveNav(page.name); setSearchInputValue(''); }}>
+                        <div style={{ width: '16px', height: '16px', color: 'var(--text-mut)' }}>{page.icon}</div>
+                        <div>
+                          <div style={{ fontSize: '13px', color: 'var(--text)', fontWeight: '500' }}>{page.name}</div>
+                          <div style={{ fontSize: '11px', color: 'var(--text-mut)' }}>Dashboard View</div>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div style={{ padding: '8px 12px 4px', fontSize: '11px', color: 'var(--teal)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Knowledge</div>
+                    <div className="search-res-item" style={{ padding: '10px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => { setGlobalQuery(searchInputValue); setActiveNav('Semantic Search'); setSearchInputValue(''); }}>
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--teal)" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                      <div>
+                        <div style={{ fontSize: '13px', color: 'var(--text)', fontWeight: '500' }}>Search for "{searchInputValue}"</div>
+                        <div style={{ fontSize: '11px', color: 'var(--text-mut)' }}>In Semantic Search</div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div style={{ padding: '8px 12px', fontSize: '11px', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Recent Searches</div>
+                    <div className="search-res-item" style={{ padding: '10px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', color: 'var(--text-mut)' }} onClick={() => setSearchInputValue('Vendor SLA penalties')}>
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      <span style={{ fontSize: '13px' }}>Vendor SLA penalties</span>
+                    </div>
+                    <div className="search-res-item" style={{ padding: '10px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', color: 'var(--text-mut)' }} onClick={() => setSearchInputValue('SOC2 compliance docs')}>
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      <span style={{ fontSize: '13px' }}>SOC2 compliance docs</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="top-right" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -374,7 +468,7 @@ export default function Dashboard({ user }) {
             </div>
             {activeNav === 'Knowledge Graph' && <KnowledgeGraphView />}
             {activeNav === 'Sources' && <SourcesView />}
-            {activeNav === 'Semantic Search' && <SemanticSearchView />}
+            {activeNav === 'Semantic Search' && <SemanticSearchView initialQuery={globalQuery} />}
             {activeNav === 'Analytics' && <AnalyticsView />}
             {activeNav === 'API & Docs' && <ApiDocsView />}
             {activeNav === 'Activity Log' && <ActivityLogView />}

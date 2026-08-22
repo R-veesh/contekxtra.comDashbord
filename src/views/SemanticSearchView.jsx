@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 
-export default function SemanticSearchView() {
-  const [query, setQuery] = useState('');
-  const [searched, setSearched] = useState(false);
+export default function SemanticSearchView({ initialQuery = '' }) {
+  const [query, setQuery] = useState(initialQuery);
+  const [searched, setSearched] = useState(!!initialQuery);
+
+  React.useEffect(() => {
+    if (initialQuery) {
+      setQuery(initialQuery);
+      setSearched(true);
+    }
+  }, [initialQuery]);
 
   const handleSearch = (e) => {
     e.preventDefault();
