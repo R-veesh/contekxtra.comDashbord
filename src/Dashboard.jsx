@@ -75,10 +75,10 @@ export default function Dashboard({ user }) {
       <div className="mobile-overlay" onClick={() => setIsMobileNavOpen(false)}></div>
       {/* RAIL */}
       <aside className="rail">
-        <div className="brand">
-          <img src={Logo} alt="ContekXtra Logo" style={{ width: '32px', height: 'auto', objectFit: 'contain' }} />
-          <div className="brand-text">
-            <span className="sub">Context Intelligence</span>
+        <div className="brand" style={{ padding: '0 8px', marginBottom: '20px', marginTop: '4px' }}>
+          <div className="brand-text" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <img src={Logo} alt="ContekXtra Logo" style={{ height: '40px', width: 'auto', display: 'block', marginBottom: '8px', marginLeft: '-2px' }} />
+            <span className="sub" style={{ paddingLeft: '2px' }}>Context Intelligence</span>
           </div>
         </div>
 
