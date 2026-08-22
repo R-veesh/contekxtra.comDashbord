@@ -54,8 +54,34 @@ export default function SemanticSearchView() {
           ))}
         </div>
       ) : (
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5B6275', border: '1px dashed #242B38', borderRadius: '8px' }}>
-          Enter a query to search across the Enterprise Knowledge Graph
+        <div style={{ flex: 1, padding: '40px', color: '#8C94A6', border: '1px dashed #242B38', borderRadius: '8px', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px', marginTop: '20px' }}>
+            <div style={{ color: '#E4E7ED', fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>Start your semantic search</div>
+            <div>Enter a query to search across the Enterprise Knowledge Graph, or try one of the suggestions below.</div>
+          </div>
+          
+          <div style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
+            <div style={{ color: '#E4E7ED', fontWeight: 'bold', marginBottom: '16px', fontSize: '14px' }}>Suggested Queries</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              {[
+                "What changed in the Q3 vendor contract terms?",
+                "Show revenue trend for the APAC region, last 2 quarters",
+                "Who is the main contact for the Salesforce integration?",
+                "Summarize the new compliance requirements for GDPR"
+              ].map((q, idx) => (
+                <div 
+                  key={idx} 
+                  onClick={() => setQuery(q)}
+                  style={{ padding: '16px', background: '#171C27', border: '1px solid #242B38', borderRadius: '8px', cursor: 'pointer', color: '#3DBFAD', transition: 'all 0.2s ease', fontSize: '14px', display: 'flex', alignItems: 'center' }}
+                  onMouseOver={(e) => e.currentTarget.style.borderColor = '#3DBFAD'}
+                  onMouseOut={(e) => e.currentTarget.style.borderColor = '#242B38'}
+                >
+                  <span style={{ marginRight: '12px', fontSize: '16px' }}>✨</span>
+                  {q}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
