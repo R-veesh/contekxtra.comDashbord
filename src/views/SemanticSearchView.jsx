@@ -34,6 +34,17 @@ export default function SemanticSearchView() {
           onChange={(e) => setQuery(e.target.value)}
           style={{ flex: 1, padding: '12px 16px', background: '#171C27', border: '1px solid #2A5A54', borderRadius: '6px', color: '#E4E7ED', fontSize: '15px' }}
         />
+        {(query || searched) && (
+          <button 
+            type="button" 
+            onClick={() => { setQuery(''); setSearched(false); }} 
+            style={{ padding: '0 24px', background: 'transparent', color: '#8C94A6', border: '1px solid #242B38', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s ease' }}
+            onMouseOver={(e) => { e.currentTarget.style.color = '#E4E7ED'; e.currentTarget.style.borderColor = '#5B6275'; }}
+            onMouseOut={(e) => { e.currentTarget.style.color = '#8C94A6'; e.currentTarget.style.borderColor = '#242B38'; }}
+          >
+            Clear
+          </button>
+        )}
         <button type="submit" style={{ padding: '0 24px', background: '#3DBFAD', color: '#090B0E', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>
           Search Context
         </button>
