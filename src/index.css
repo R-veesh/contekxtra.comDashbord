@@ -49,7 +49,9 @@ a{color:inherit; text-decoration:none;}
   grid-template-areas:
     "rail top"
     "rail main";
-  min-height:100vh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 /* ---------- rail ---------- */
