@@ -26,13 +26,13 @@ export default function SemanticSearchView() {
         </div>
       </div>
       
-      <form onSubmit={handleSearch} style={{ display: 'flex', gap: '12px', marginBottom: '30px' }}>
+      <form onSubmit={handleSearch} style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '30px' }}>
         <input 
           type="text" 
           placeholder="e.g., What changed in the Q3 vendor contract terms?" 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{ flex: 1, padding: '12px 16px', background: '#171C27', border: '1px solid #2A5A54', borderRadius: '6px', color: '#E4E7ED', fontSize: '15px' }}
+          style={{ flex: '1 1 250px', padding: '12px 16px', background: '#171C27', border: '1px solid #2A5A54', borderRadius: '6px', color: '#E4E7ED', fontSize: '15px' }}
         />
         {(query || searched) && (
           <button 

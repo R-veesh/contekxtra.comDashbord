@@ -37,6 +37,7 @@ export default function Dashboard({ user }) {
   const [stamp, setStamp] = useState('—');
   const [activeNav, setActiveNav] = useState('Command Center');
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
 
   useEffect(() => {
     setStamp(new Date().toLocaleString('en-US', {
@@ -143,8 +144,8 @@ export default function Dashboard({ user }) {
                 <div style={{ color: 'var(--text-mut)', fontSize: '11px' }}>{user?.email}</div>
               </div>
               
-              {user?.photoURL ? (
-                <img src={user.photoURL} alt="Avatar" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} />
+              {user?.photoURL && !avatarError ? (
+                <img src={user.photoURL} alt="Avatar" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} onError={() => setAvatarError(true)} />
               ) : (
                 <div className="avatar" style={{ width: '32px', height: '32px', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--surface-2)', border: '1px solid var(--line)', borderRadius: '50%', color: 'var(--amber)' }}>
                   {(user?.displayName || user?.email || 'U').substring(0, 2).toUpperCase()}

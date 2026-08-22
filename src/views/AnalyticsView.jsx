@@ -10,7 +10,7 @@ export default function AnalyticsView() {
         </div>
       </div>
       
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '30px' }}>
+      <div className="grid-3" style={{ marginBottom: '30px' }}>
         <div style={{ background: '#171C27', padding: '20px', borderRadius: '8px', border: '1px solid #242B38' }}>
           <div style={{ color: '#8C94A6', fontSize: '13px', marginBottom: '8px' }}>Total Queries (30d)</div>
           <div style={{ color: '#E4E7ED', fontSize: '28px', fontWeight: 'bold' }}>124,592</div>
