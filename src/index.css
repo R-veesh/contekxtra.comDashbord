@@ -778,6 +778,16 @@ a{color:inherit; text-decoration:none;}
   to { transform: translateX(0); opacity: 1; }
 }
 
+.topbar{
+  grid-area: top;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 50;
+}
+
 .inspector-head {
   display: flex;
   justify-content: space-between;
