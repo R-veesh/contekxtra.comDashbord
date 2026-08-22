@@ -365,7 +365,7 @@ export default function Dashboard({ user }) {
         </section>
           </>
         ) : (
-          <div style={{ padding: '40px' }}>
+          <div style={{ padding: '0' }}>
             <div className="page-head" style={{ marginBottom: '24px' }}>
               <div>
                 <span className="eyebrow">Enterprise Context Intelligence</span>
