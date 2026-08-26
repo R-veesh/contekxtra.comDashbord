@@ -108,7 +108,7 @@ export default function Login({ onLogin }) {
           <img 
             src="/logo.svg" 
             alt="ContekXtra Logo" 
-            style={{ height: '48px', marginBottom: '16px', display: 'block', margin: '0 auto 16px auto' }} 
+            style={{ height: '100px', marginBottom: '16px', display: 'block', margin: '0 auto 16px auto' }} 
           />
           <p style={{ color: '#8C94A6', margin: 0, fontSize: '14px' }}>Enterprise Context Intelligence</p>
         </div>
