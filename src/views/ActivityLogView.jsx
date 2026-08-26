@@ -21,10 +21,48 @@ export default function ActivityLogView() {
     setFilter(nextFilter.charAt(0).toUpperCase() + nextFilter.slice(1));
   };
 
+  const displayedLogs = filter === 'All' 
+    ? allLogs 
+    : allLogs.filter(log => log.type.toLowerCase() === filter.toLowerCase());
+
   const handleExportClick = () => {
     if (exporting) return;
     setExporting(true);
     setExportText('Exporting...');
+    
+    try {
+      const headers = ['Time', 'User/Source', 'Action', 'Details', 'Type'];
+      const csvRows = [headers.join(',')];
+      
+      displayedLogs.forEach(log => {
+        const row = [
+          `"${log.time}"`,
+          `"${log.user}"`,
+          `"${log.action}"`,
+          `"${log.detail.replace(/"/g, '""')}"`,
+          `"${log.type}"`
+        ];
+        csvRows.push(row.join(','));
+      });
+      
+      const csvString = csvRows.join('\n');
+      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'activity_log.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      setExportText('Exported!');
+    } catch (error) {
+      console.error('Error exporting CSV:', error);
+      setExportText('Error');
+    }
+    
     setTimeout(() => {
       setExportText('Exported!');
       setTimeout(() => {
@@ -32,6 +70,9 @@ export default function ActivityLogView() {
         setExporting(false);
       }, 2000);
     }, 1000);
+      setExportText('Export CSV');
+      setExporting(false);
+    }, 2000);
   };
 
   const displayedLogs = filter === 'All' 
