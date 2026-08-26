@@ -42,6 +42,14 @@ export default function Dashboard({ user }) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
   const searchInputRef = useRef(null);
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (mainRef.current) {
+      mainRef.current.scrollTo(0, 0);
+    }
+  }, [activeNav]);
 
   const NAV_PAGES = [
     { name: 'Command Center', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg> },
@@ -262,7 +270,7 @@ export default function Dashboard({ user }) {
       </header>
 
       {/* MAIN */}
-      <main className="main">
+      <main className="main" ref={mainRef}>
         {activeNav === 'Command Center' ? (
           <>
             <div className="page-head">

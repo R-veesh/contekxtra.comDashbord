@@ -64,20 +64,10 @@ export default function ActivityLogView() {
     }
     
     setTimeout(() => {
-      setExportText('Exported!');
-      setTimeout(() => {
-        setExportText('Export CSV');
-        setExporting(false);
-      }, 2000);
-    }, 1000);
       setExportText('Export CSV');
       setExporting(false);
     }, 2000);
   };
-
-  const displayedLogs = filter === 'All' 
-    ? allLogs 
-    : allLogs.filter(log => log.type.toLowerCase() === filter.toLowerCase());
 
   return (
     <div className="panel" style={{ minHeight: '600px' }}>
