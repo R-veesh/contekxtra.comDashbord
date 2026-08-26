@@ -130,7 +130,7 @@ export default function Login({ onLogin }) {
                 type="text" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="John Doe"
+                placeholder="Enter your full name"
                 style={{
                   width: '100%',
                   padding: '12px 16px',
@@ -152,7 +152,7 @@ export default function Login({ onLogin }) {
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@company.com"
+              placeholder="Enter your work email"
               style={{
                 width: '100%',
                 padding: '12px 16px',
@@ -176,7 +176,7 @@ export default function Login({ onLogin }) {
               type="password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Enter your password"
               style={{
                 width: '100%',
                 padding: '12px 16px',
@@ -224,7 +224,7 @@ export default function Login({ onLogin }) {
                 type="password" 
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Confirm your password"
                 style={{
                   width: '100%',
                   padding: '12px 16px',
