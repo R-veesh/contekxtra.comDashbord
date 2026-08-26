@@ -251,6 +251,7 @@ export default function Dashboard({ user }) {
 
             {user?.photoURL && !avatarError ? (
               <img src={user.photoURL} alt="Avatar" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} onError={() => setAvatarError(true)} />
+              <img src={user.photoURL} alt="Avatar" referrerPolicy="no-referrer" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} onError={() => setAvatarError(true)} />
             ) : (
               <div className="avatar" style={{ width: '32px', height: '32px', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--surface-2)', border: '1px solid var(--line)', borderRadius: '50%', color: 'var(--amber)' }}>
                 {(user?.displayName || user?.email || 'U').substring(0, 2).toUpperCase()}
