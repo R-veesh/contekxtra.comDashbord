@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { auth, googleProvider } from './firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+import loginBg from './assets/login_bg.svg';
 
 export default function Login({ onLogin }) {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -88,16 +89,20 @@ export default function Login({ onLogin }) {
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#090B0E',
+      backgroundImage: `url(${loginBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
       fontFamily: '"IBM Plex Sans", sans-serif'
     }}>
       <div style={{
         width: '100%',
         maxWidth: '420px',
         padding: '40px',
-        backgroundColor: '#171C27',
-        border: '1px solid #242B38',
+        backgroundColor: 'rgba(23, 28, 39, 0.85)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(36, 43, 56, 0.8)',
         borderRadius: '12px',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+        boxShadow: '0 20px 40px rgba(0,0,0,0.6)'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <img 
